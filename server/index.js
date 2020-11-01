@@ -19,7 +19,24 @@ const connect = mongoose.connect(config.mongoURI, { useNewUrlParser: true, useUn
   .then(() => console.log('MongoDB Connected...'))
   .catch(err => console.log(err));
 
-app.use(cors())
+
+const whitelist = ['http://localhost:3000', 'https://prough123.github.io/'];
+
+
+app.use(cors({
+  origin: whitelist,
+  methods: "GET,PUT,POST,DELETE, OPTIONS",
+  preflightContinue: true,
+  optionsSuccessStatus: 204
+}));
+
+app.use(function(req, res, next) {
+  if(whitelist.indexOf(req.headers.origin) > -1) res.setHeader('Access-Control-Allow-Origin', req.headers.origin);
+  res.setHeader('Access-Control-Allow-Headers', 'Authorization, Origin, X-Requested-With, Content-Type, Accept');
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+  res.setHeader("Access-Control-Allow-Credentials", true);
+  next();
+});
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
