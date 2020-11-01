@@ -20,7 +20,7 @@ const connect = mongoose.connect(config.mongoURI, { useNewUrlParser: true, useUn
   .catch(err => console.log(err));
 
 
-const whitelist = ['http://localhost:3000', 'https://prough123.github.io/'];
+const whitelist = ['http://localhost:3000', 'https://prough123.github.io'];
 
 
 app.use(cors({
